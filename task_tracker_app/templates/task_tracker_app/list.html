@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <div>
+        <div>
+            <h3>{{ belong_list.title | upper }}</h3>
+            <h5>{{ belong_list.description }}</h5>
+        </div>
+        <ul>
+            {% for task in object_list %}
+            <li>
+                <div>
+                    <div
+                        role="button"
+                        onclick="location.href='{% url "item-update" belong_list.id task.id %}'">
+                        <input type="checkbox" name="done" {% if task.done %}checked{% endif %}>
+                        {% if task.done %}
+                            <s>{{ task.title }}</s>
+                        {% else %}
+                            {{ task.title }}
+                            (Сделать к {{ task.due_date | date:"d.m.Y H:i" }})
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+            {% empty %}
+            <p>В списке нет ни одной задачи.</p>
+            {% endfor %}
+        </ul>
+        <p>
+            <input
+                value="Добавить задачу"
+                type="button"
+                onclick="location.href='{% url "item-add" belong_list.id %}'"
+            />
+            <input
+                value="Удалить список"
+                type="button"
+                onclick="location.href='{% url "list-delete" belong_list.id %}'"
+            />
+        </p>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<!--index.html-->
+
+{% if object_list %}
+<h3>Все списки</h3>
+{% endif %}
+<ul>
+    {% for todolist in object_list %}
+    <li>
+        <div
+            role="button"
+            onclick="location.href='{% url "list" todolist.id %}'">
+            {{ todolist.title }} 
+            ({{ todolist.done_tasks }}/{{ todolist.total_tasks }})
+        </div>
+    </li>
+    {% empty %}
+    <h4>Ни одного списка не было найдено!</h4>
+    {% endfor %}
+</ul>
+<p>
+    <input
+        value="Создать новый список"
+        type="button"
+        onclick="location.href='{% url "list-add" %}'"/>
+</p>
+
+{% endblock %}
